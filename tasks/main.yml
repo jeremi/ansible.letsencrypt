@@ -1,0 +1,24 @@
+---
+  - name: Install depends
+    apt: name={{ item }} state=installed
+    with_items:
+      - python
+      - python-dev
+      - python-virtualenv
+      - dialog
+      - libaugeas0
+      - libssl-dev
+      - libffi-dev
+      - ca-certificates
+      - python-pip
+      - git
+  - name: Install python depends
+    pip: virtualenv="{{ letsencrypt_venv }}" virtualenv_site_packages=no name={{ item }} state=latest
+    with_items:
+      - setuptools
+      - pip
+  - name: More python depends
+    pip: virtualenv="{{ letsencrypt_venv }}" virtualenv_site_packages=no name={{ item }}
+    with_items:
+      - git+https://github.com/kuba/ConfigArgParse.git@python2.6-0.9.3#egg=ConfigArgParse
+      - letsencrypt
